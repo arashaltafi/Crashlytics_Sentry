@@ -2,6 +2,9 @@ package com.arash.altafi.crashlytics
 
 import android.app.Application
 import android.util.Log
+import com.google.firebase.crashlytics.ktx.crashlytics
+import com.google.firebase.crashlytics.ktx.setCustomKeys
+import com.google.firebase.ktx.Firebase
 import io.sentry.Breadcrumb
 import io.sentry.Sentry
 import io.sentry.SentryLevel
@@ -17,7 +20,8 @@ object CrashlyticsUtils {
         versionCode: Int
     ) {
         SentryAndroid.init(application) { options ->
-            options.dsn = "https://b02e33277c4746508ef61522cd94f2c0@o1126595.ingest.sentry.io/6270980"
+            options.dsn =
+                "https://b02e33277c4746508ef61522cd94f2c0@o1126595.ingest.sentry.io/6270980"
 
             if (isDebug) {
                 options.isDebug = true
@@ -69,5 +73,18 @@ object CrashlyticsUtils {
         }
 
         Sentry.captureException(e)
+    }
+
+    fun captureExceptionFireBase(userId: String? = null, message: String? = null) {
+        message?.let { Firebase.crashlytics.log(it) }
+        userId?.let { Firebase.crashlytics.setUserId(it) }
+        Firebase.crashlytics.setCustomKeys {
+            key("my_string_key", "test")  // String value
+            key("my_bool_key", true)      // boolean value
+            key("my_double_key", 1.0)     // double value
+            key("my_float_key", 1.0f)     // float value
+            key("my_int_key", 1)          // int value
+        }
+
     }
 }

@@ -7,7 +7,8 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 /**
  * https://sentry.io/
- * sentry is not work without vpn in iran!
+ * https://console.firebase.google.com/
+ * sentry and firebase is not work in iran! (use vpn)
  */
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -17,11 +18,15 @@ class MainActivity : AppCompatActivity() {
         btn_sentry.setOnClickListener {
             sentry()
         }
+
+        btn_firebase.setOnClickListener {
+            firebase()
+        }
     }
 
     private fun sentry() {
         try {
-            throw RuntimeException("This is a crash!")
+            throw RuntimeException("This is a crash in sentry!")
         } catch (e: Exception) {
             Toast.makeText(this, "crash message send success", Toast.LENGTH_SHORT).show()
             CrashlyticsUtils.captureException(
@@ -30,5 +35,10 @@ class MainActivity : AppCompatActivity() {
                 message = e.message
             )
         }
+    }
+
+    private fun firebase() {
+        CrashlyticsUtils.captureExceptionFireBase("userId_test", "message_test")
+        throw RuntimeException("This is a crash in firebase!")
     }
 }

@@ -5,6 +5,8 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id "io.sentry.android.gradle" version "3.5.0"
+    id 'com.google.firebase.crashlytics'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -49,4 +51,8 @@ dependencies {
     //Sentry
     implementation 'io.sentry:sentry-android:6.11.0'
 
+    //FireBase Crashlytics
+    implementation platform('com.google.firebase:firebase-bom:30.2.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx:21.1.1'
+    implementation 'com.google.firebase:firebase-crashlytics-ktx:18.2.13'
 }
